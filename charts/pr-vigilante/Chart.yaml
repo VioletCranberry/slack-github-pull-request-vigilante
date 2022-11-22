@@ -1,0 +1,7 @@
+apiVersion: v2
+name: pr-vigilante
+description: A Helm chart pr-vigilante
+
+type: application
+version: 0.2.0
+appVersion: "0.2.0"

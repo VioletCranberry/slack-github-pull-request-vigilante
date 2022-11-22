@@ -1,0 +1,36 @@
+environments: 
+  default:
+    values:
+      - auth: 
+          github_api_token: <github_api_token>
+          slack_api_token: <slack_api_token>
+
+helmDefaults:
+  wait: true
+
+releases:
+  - chart: ./charts/pr-vigilante
+    version: 0.2.0
+    name: pr-vigilante
+    namespace: slack-tools
+    createNamespace: true
+    values:
+      - extraEnv:
+          - name: "SLACK_API_TOKEN" 
+            value: {{ .Values.auth.slack_api_token }}
+          - name: "GITHUB_API_TOKEN"
+            value: {{ .Values.auth.github_api_token }}
+          - name: "CHANNEL_ID"
+            value: <my_channel_id>
+          - name: "REACTION_NAME"
+            value: "white_check_mark"
+          - name: "TIME_WINDOW"
+            value: "60"
+          - name: "SLEEP_PERIOD"
+            value: "1"
+      - resources:
+          requests:
+            cpu: 200m
+            memory: 200Mi
+      - nodeSelector:
+          purpose: <my_node_selector>
